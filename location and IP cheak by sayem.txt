@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP to Location</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            padding: 50px;
+        }
+        .info {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            text-align: left;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #555;
+        }
+        .admin-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            text-align: right;
+        }
+        .admin-info h3 {
+            margin: 0 0 10px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your IP and Location</h1>
+        <div id="ip-info" class="info">
+            <p>Loading your information...</p>
+        </div>
+        <button onclick="fetchIPInfo()">Refresh</button>
+    </div>
+
+    <div class="admin-info">
+        <h3>Admin Information</h3>
+        <button onclick="openTelegram()">View Telegram ID</button>
+        <button onclick="openFacebook()">View Facebook Profile</button>
+        <button onclick="viewDetails()">View My Details</button>
+    </div>
+
+    <script>
+        async function fetchIPInfo() {
+            document.getElementById('ip-info').innerHTML = `<p>Loading your information...</p>`;
+            try {
+                const response = await fetch('http://ip-api.com/json/');
+                const data = await response.json();
+
+                if (data.status === "success") {
+                    document.getElementById('ip-info').innerHTML = `
+                        <p><strong>IP Address:</strong> ${data.query}</p>
+                        <p><strong>City:</strong> ${data.city}</p>
+                        <p><strong>Region:</strong> ${data.regionName}</p>
+                        <p><strong>Country:</strong> ${data.country}</p>
+                        <p><strong>Timezone:</strong> ${data.timezone}</p>
+                    `;
+                } else {
+                    document.getElementById('ip-info').innerHTML = `<p>Unable to fetch location data.</p>`;
+                }
+            } catch (error) {
+                document.getElementById('ip-info').innerHTML = `<p>Error fetching data: ${error.message}</p>`;
+            }
+        }
+
+        function openTelegram() {
+            window.open("https://t.me/sayem8289", "_blank");
+        }
+
+        function openFacebook() {
+            window.open("https://www.facebook.com/sayem8289", "_blank");
+        }
+
+        function viewDetails() {
+            alert(
+                "Name: Sayem\n" +
+                "Class: 10\n" +
+                "Interest: Coding, Gaming, Song Listening, Web Developing\n" +
+                "Married Status: Married\n" +
+                "GF Name: Tuktuki🥹"
+            );
+        }
+
+        fetchIPInfo();
+    </script>
+</body>
+</html>
